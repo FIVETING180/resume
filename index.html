@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>炉石 | 摄影师 · 拍剪创作者</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --surface-hover: #f5f5f5;
+      --text: #1a1a1a;
+      --text-secondary: #555555;
+      --text-tertiary: #888888;
+      --accent: #c9a86c;
+      --accent-light: #e8d5b5;
+      --border: #e8e8e8;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --grain: rgba(0, 0, 0, 0.02);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f0f12;
+      --surface: #1a1a1f;
+      --surface-hover: #25252c;
+      --text: #f0f0f5;
+      --text-secondary: #a0a0b0;
+      --text-tertiary: #6e6e7e;
+      --accent: #d4b47b;
+      --accent-light: #5c4f38;
+      --border: #2a2a32;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.2);
+      --grain: rgba(255, 255, 255, 0.02);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(var(--bg-rgb, 250, 250, 250), 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    [data-theme="dark"] nav {
+      background: rgba(15, 15, 18, 0.85);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: var(--text);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: var(--text);
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      transform: rotate(15deg);
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 140px 40px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .hero-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      transition: opacity 0.4s ease;
+    }
+
+    .hero-bg-circle-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--accent-light);
+      top: 10%;
+      right: -10%;
+    }
+
+    .hero-bg-circle-2 {
+      width: 400px;
+      height: 400px;
+      background: #c9c9d8;
+      bottom: 10%;
+      left: -5%;
+      opacity: 0.3;
+    }
+
+    [data-theme="dark"] .hero-bg-circle-2 {
+      background: #2a2a3a;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: 4px;
+    }
+
+    .hero-subtitle {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 2;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-meta-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .hero-meta-value {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .hero-contact {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .hero-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background: var(--surface);
+      white-space: nowrap;
+    }
+
+    .hero-contact a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .reveal-btn {
+      padding: 12px 28px;
+      border: 1px solid var(--accent);
+      border-radius: 100px;
+      background: transparent;
+      color: var(--accent);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      letter-spacing: 1px;
+    }
+
+    .reveal-btn:hover {
+      background: var(--accent);
+      color: var(--surface);
+    }
+
+    .footer-contact .reveal-btn {
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .footer-contact .reveal-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--surface);
+    }
+
+    /* Contact Modal */
+    .contact-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      padding: 24px;
+    }
+
+    .contact-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .contact-modal-content {
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.3s ease;
+      border: 1px solid var(--border);
+    }
+
+    .contact-modal.show .contact-modal-content {
+      transform: translateY(0) scale(1);
+    }
+
+    .contact-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .contact-modal-close:hover {
+      color: var(--accent);
+    }
+
+    .contact-modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+
+    .contact-modal-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .contact-modal-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-modal-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      background: var(--bg);
+    }
+
+    .contact-modal-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .contact-modal-icon {
+      font-size: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .contact-modal-content {
+        padding: 36px 24px;
+      }
+    }
+
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 1/1;
+      max-width: 480px;
+      margin: 0 auto;
+      border-radius: 30px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .hero-visual svg {
+      width: 80%;
+      height: 80%;
+      transition: transform 0.6s ease;
+    }
+
+    .hero-visual:hover svg {
+      transform: scale(1.05);
+    }
+
+    /* Sections */
+    section {
+      padding: 120px 40px;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    /* About */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 2;
+    }
+
+    .about-text p {
+      margin-bottom: 24px;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .stat-item {
+      padding: 32px;
+      background: var(--surface);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, background 0.4s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .stat-number {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Experience */
+    .experience {
+      background: var(--surface);
+      transition: background 0.4s ease;
+    }
+
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 40px;
+      padding-bottom: 48px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -5px;
+      top: 8px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--surface);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-company {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .timeline-date {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+
+    .timeline-role {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .timeline-item ul {
+      padding-left: 20px;
+      color: var(--text-secondary);
+    }
+
+    .timeline-item li {
+      margin-bottom: 8px;
+      line-height: 1.8;
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, background 0.4s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .project-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      transition: background 0.4s ease;
+    }
+
+    .project-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--accent);
+    }
+
+    .project-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--bg);
+      border-radius: 100px;
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 500;
+      transition: background 0.4s ease;
+    }
+
+    .project-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .project-desc {
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    .project-desc ul {
+      padding-left: 18px;
+    }
+
+    .project-desc li {
+      margin-bottom: 8px;
+    }
+
+    /* Awards */
+    .awards {
+      background: var(--surface);
+      transition: background 0.4s ease;
+    }
+
+    .awards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .award-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 36px;
+      background: var(--bg);
+      border-radius: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+      border: 1px solid var(--border);
+      transition: background 0.4s ease;
+    }
+
+    .award-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .award-detail {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .award-date {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+
+    /* Footer */
+    footer {
+      padding: 100px 40px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 18px;
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    .footer-contact {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px 40px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .footer-contact a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    .footer-contact a:hover {
+      color: var(--accent);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero-visual {
+        max-width: 360px;
+        order: -1;
+      }
+
+      .about-content,
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      section {
+        padding: 80px 24px;
+      }
+
+      .hero {
+        padding: 120px 24px 60px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card {
+        padding: 28px;
+      }
+
+      .nav-inner {
+        padding: 16px 24px;
+      }
+    }
+
+    @media print {
+      nav, footer, .hero-contact, .theme-toggle, .hero-bg {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 40px 0;
+      }
+
+      section {
+        padding: 40px 0;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .project-card {
+        box-shadow: none;
+        border: 1px solid var(--border);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">LU SHI</div>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#about">关于</a>
+          <a href="#experience">经历</a>
+          <a href="#projects">项目</a>
+          <a href="#awards">获奖</a>
+          <a href="#contact">联系</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-bg-circle hero-bg-circle-1"></div>
+      <div class="hero-bg-circle hero-bg-circle-2"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-content animate">
+        <div class="hero-label">Photographer & Video Creator</div>
+        <h1>炉石</h1>
+        <p class="hero-subtitle">摄影师 / 拍剪创作者</p>
+        <p class="hero-desc">
+          专注于人像写真、活动纪实与商业短视频创作。善于以影像为语言，捕捉情绪、构建叙事，将客户需求转化为具有传播力的视觉作品。具备从前期策划到后期交付的全流程执行能力。
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Experience</span>
+            <span class="hero-meta-value">2 年实战经验</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Location</span>
+            <span class="hero-meta-value">广州 / 佛山</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="hero-meta-label">Focus</span>
+            <span class="hero-meta-value">摄影 / 拍剪 / 视觉运营</span>
+          </div>
+        </div>
+        <div class="hero-contact">
+          <button class="reveal-btn" onclick="openContactModal()">联系我</button>
+        </div>
+      </div>
+      <div class="hero-visual animate">
+        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:var(--accent);stop-opacity:0.3" />
+              <stop offset="100%" style="stop-color:var(--accent);stop-opacity:0.05" />
+            </linearGradient>
+          </defs>
+          <circle cx="200" cy="200" r="160" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/>
+          <circle cx="200" cy="200" r="140" stroke="var(--accent)" stroke-width="1" opacity="0.2"/>
+          <circle cx="200" cy="200" r="120" stroke="var(--accent)" stroke-width="1" opacity="0.15"/>
+          <circle cx="200" cy="200" r="100" stroke="var(--accent)" stroke-width="1" opacity="0.1"/>
+          <circle cx="200" cy="200" r="70" fill="url(#lensGrad)" stroke="var(--accent)" stroke-width="2"/>
+          <circle cx="200" cy="200" r="45" fill="var(--bg)" stroke="var(--accent)" stroke-width="2"/>
+          <circle cx="200" cy="200" r="25" fill="var(--accent)" opacity="0.8"/>
+          <circle cx="218" cy="182" r="8" fill="var(--surface)" opacity="0.6"/>
+          <rect x="60" y="190" width="40" height="20" rx="4" fill="var(--bg)" stroke="var(--accent)" stroke-width="1.5"/>
+          <rect x="300" y="190" width="40" height="20" rx="4" fill="var(--bg)" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M200 40 L200 60" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M200 340 L200 360" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M40 200 L60 200" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M340 200 L360 200" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">About</div>
+        <h2 class="section-title">关于我</h2>
+      </div>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            我是一名拥有两年影像创作经验的摄影师与拍剪创作者，实战范围覆盖人像写真、活动纪实、商业短视频及新媒体视觉运营。
+          </p>
+          <p>
+            我相信好的影像不仅是记录，更是情绪的传递与故事的表达。面对不同客户，我能够快速洞察其核心诉求，从风格定位、场景构建到光线与构图，制定精准的拍摄方案，并独立完成后期剪辑与视觉优化。
+          </p>
+          <p>
+            从写真工作室到传媒公司，从企业培训到餐饮商业拍摄，我积累了丰富的项目经验，也养成了对细节、节奏与视觉品质的持续追求。
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">月服务餐饮客户</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">写真摄影项目</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">大型活动拍摄</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">2</div>
+            <div class="stat-label">设计/微电影奖项</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="experience">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Experience</div>
+        <h2 class="section-title">工作经历</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <span class="timeline-company">佛山云上传媒有限公司</span>
+            <span class="timeline-date">2025.08 - 2026.05</span>
+          </div>
+          <div class="timeline-role">拍剪摄影师</div>
+          <ul>
+            <li>作为核心创作人员，独立完成客户需求沟通、视频文案策划及分镜设计，确保创意方向与客户品牌调性一致。</li>
+            <li>全流程负责短视频拍摄与后期剪辑，把控画面节奏、色彩风格与叙事逻辑，输出符合传播目标的高质量成片。</li>
+            <li>月均服务 15+ 家餐饮客户，覆盖日料、酒店、酒楼、早茶等多元业态，积累了丰富的商业拍摄剪辑经验。</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <span class="timeline-company">康斯几丁摄影工作室</span>
+            <span class="timeline-date">2024.10 - 2025.05</span>
+          </div>
+          <div class="timeline-role">摄影师</div>
+          <ul>
+            <li>主导完成 15+ 组写真拍摄项目，精准捕捉人物情绪与特质，建立稳定的客户口碑与复购转化。</li>
+            <li>针对不同客户风格偏好，定制从场景选择、光线设计到构图表达的完整拍摄方案。</li>
+            <li>负责工作室公众号及内刊的内容策划与视觉输出，提升品牌线上内容质感与传播力。</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <span class="timeline-company">广东省通信产业服务有限公司</span>
+            <span class="timeline-date">2024.07 - 2024.10</span>
+          </div>
+          <div class="timeline-role">成人培训部助教 / 活动拍摄</div>
+          <ul>
+            <li>作为培训活动现场拍摄主力，运用专业设备完成专家授课、小组研讨、互动交流等场景的影像记录。</li>
+            <li>独立完成企业培训视频的剪辑制作，保障内容交付的时效性与视觉统一性。</li>
+            <li>协助培训项目运营，负责学员信息整理、课堂协调等支持工作，确保项目有序推进。</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <span class="timeline-company">美心全媒体</span>
+            <span class="timeline-date">2022.10 - 2024.05</span>
+          </div>
+          <div class="timeline-role">新媒体运营 / 视觉设计</div>
+          <ul>
+            <li>负责校园公众号内容审核、排版及视觉设计，围绕社团活动持续输出优质内容，单月阅读量稳定上千。</li>
+            <li>结合用户画像优化图文视觉风格，提升内容点击率与传播转化效果。</li>
+            <li>独立完成活动海报、宣传物料等平面设计，支撑校园活动的线上线下传播。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Projects</div>
+        <h2 class="section-title">项目经历</h2>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <span class="project-tag">商业拍剪</span>
+          <h3 class="project-title">餐饮品牌短视频矩阵打造</h3>
+          <div class="project-desc">
+            <ul>
+              <li>月均服务 15+ 家餐饮客户，覆盖高端日料、星级酒店、传统酒楼、粤式早茶等多元餐饮业态。</li>
+              <li>独立完成从需求沟通、脚本策划、现场拍摄到后期剪辑的全流程，输出适用于抖音、小红书等平台的短视频内容。</li>
+              <li>擅长通过镜头语言呈现食材质感、用餐氛围与品牌调性，提升商家线上曝光与到店转化。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <path d="M21 15l-5-5L5 21"></path>
+            </svg>
+          </div>
+          <span class="project-tag">商业拍摄</span>
+          <h3 class="project-title">餐饮空间与菜品视觉内容制作</h3>
+          <div class="project-desc">
+            <ul>
+              <li>为多家餐饮品牌拍摄门店环境、菜品特写及用餐场景，构建完整的线上视觉素材库。</li>
+              <li>熟练把控商业拍摄中的光线、构图与色彩风格，确保画面兼具食欲感与品牌高级感。</li>
+              <li>积累了丰富的商业拍摄与后期剪辑经验，能够快速适应不同品牌视觉标准与传播需求。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </div>
+          <span class="project-tag">人像摄影</span>
+          <h3 class="project-title">写真摄影项目定制</h3>
+          <div class="project-desc">
+            <ul>
+              <li>累计完成 15+ 组个性化写真拍摄，根据客户气质与风格偏好定制拍摄方案。</li>
+              <li>统筹场景选择、光线设计与情绪引导，精准捕捉人物特质，客户满意度与复购率稳定。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+          </div>
+          <span class="project-tag">活动影像</span>
+          <h3 class="project-title">企业培训与校园活动影像记录</h3>
+          <div class="project-desc">
+            <ul>
+              <li>承担企业培训活动现场拍摄主力工作，完成专家授课、研讨互动等场景的照片与视频采集。</li>
+              <li>参与校园文化节、学术讲座、运动会等 10 余场活动拍摄，累计输出高质量照片 1000+ 张。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="awards" class="awards">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Awards</div>
+        <h2 class="section-title">获奖经历</h2>
+      </div>
+      <div class="awards-list">
+        <div class="award-card">
+          <div>
+            <div class="award-title">创意星球学院奖 2023 秋季征集大赛 · 优秀奖</div>
+            <div class="award-detail">品牌平面海报设计</div>
+          </div>
+          <span class="award-date">2023.10</span>
+        </div>
+        <div class="award-card">
+          <div>
+            <div class="award-title">"眼明心亮，防诈于行" 微电影大赛 · 二等奖</div>
+            <div class="award-detail">微电影创作《圈》</div>
+          </div>
+          <span class="award-date">2023.10</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="container">
+      <p class="footer-text">期待与你合作，用影像讲述更多精彩故事。</p>
+      <div class="footer-contact">
+        <button class="reveal-btn" onclick="openContactModal()">联系我</button>
+        <span>广州 / 佛山</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="contact-modal" id="contactModal" onclick="closeContactModalOnOverlay(event)">
+    <div class="contact-modal-content" onclick="event.stopPropagation()">
+      <button class="contact-modal-close" onclick="closeContactModal()" aria-label="关闭">×</button>
+      <h3 class="contact-modal-title">联系我</h3>
+      <p class="contact-modal-desc">期待与你合作，欢迎通过以下方式联系。</p>
+      <div class="contact-modal-links">
+        <a href="tel:18664249619" class="contact-modal-link">
+          <span class="contact-modal-icon">📱</span>
+          <span>18664249619</span>
+        </a>
+        <a href="mailto:kpy1924@163.com" class="contact-modal-link">
+          <span class="contact-modal-icon">✉️</span>
+          <span>kpy1924@163.com</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const html = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+      const sunIcon = toggle.querySelector('.sun-icon');
+      const moonIcon = toggle.querySelector('.moon-icon');
+
+      function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (theme === 'dark') {
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        } else {
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        }
+      }
+
+      function getInitialTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        const hour = new Date().getHours();
+        return (hour >= 18 || hour < 6) ? 'dark' : 'light';
+      }
+
+      setTheme(getInitialTheme());
+
+      toggle.addEventListener('click', function() {
+        const current = html.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+      });
+    })();
+
+    function openContactModal() {
+      document.getElementById('contactModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactModal() {
+      document.getElementById('contactModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function closeContactModalOnOverlay(event) {
+      if (event.target === document.getElementById('contactModal')) {
+        closeContactModal();
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeContactModal();
+      }
+    });
+  </script>
+</body>
+</html>
