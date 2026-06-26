@@ -444,7 +444,7 @@
       --visual-border: #e8e8e8;
       --visual-accent: #c9a86c;
       --visual-inner: #ffffff;
-      --visual-surface: #ffffff;
+      --visual-reflect: rgba(255, 255, 255, 0.5);
     }
 
     [data-theme="dark"] .hero-visual {
@@ -452,7 +452,7 @@
       --visual-border: #2a2a32;
       --visual-accent: #ffffff;
       --visual-inner: #1a1a1f;
-      --visual-surface: #2a2a32;
+      --visual-reflect: rgba(255, 255, 255, 0.85);
     }
 
     .hero-visual svg {
@@ -950,7 +950,7 @@
           <circle cx="200" cy="200" r="70" fill="url(#lensGrad)" stroke="var(--visual-accent)" stroke-width="2"/>
           <circle cx="200" cy="200" r="45" fill="var(--visual-inner)" stroke="var(--visual-accent)" stroke-width="2"/>
           <circle cx="200" cy="200" r="25" fill="var(--visual-accent)" opacity="0.8"/>
-          <circle cx="218" cy="182" r="8" fill="var(--visual-surface)" opacity="0.6"/>
+          <circle cx="218" cy="182" r="8" fill="var(--visual-reflect)"/>
           <rect x="60" y="190" width="40" height="20" rx="4" fill="var(--visual-inner)" stroke="var(--visual-accent)" stroke-width="1.5"/>
           <rect x="300" y="190" width="40" height="20" rx="4" fill="var(--visual-inner)" stroke="var(--visual-accent)" stroke-width="1.5"/>
           <path d="M200 40 L200 60" stroke="var(--visual-accent)" stroke-width="2" stroke-linecap="round"/>
